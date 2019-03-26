@@ -1,8 +1,8 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -30,17 +30,15 @@ func main() {
 	}
 }
 
-func dirTree(out *os.File, path string, printFiles bool) error {
+func dirTree(out io.Writer, path string, printFiles bool) error {
 	sl := make([]string, 1)
 	result, err := walk(path, false, printFiles, sl)
-
-	writer := bufio.NewWriter(out)
 
 	if err != nil {
 		return err
 	}
 
-	fmt.Fprintf(writer, result)
+	fmt.Fprintf(out, result)
 	return nil
 }
 
